@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (props) => {
     return (
-        <div className="category-container">
+        <div className="category-container" key={props.id}>
             <div className="background-image" style={{
                 'backgroundImage' : `url(${props.imageUrl})`
             }}/>

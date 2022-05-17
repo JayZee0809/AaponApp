@@ -1,4 +1,4 @@
-import Card from '../Components/Card';
+import Card from './Card';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default ({categories}) => {
     return(
