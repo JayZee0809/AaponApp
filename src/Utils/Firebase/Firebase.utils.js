@@ -1,5 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, TwitterAuthProvider } from 'firebase/auth';
+import { getAuth,
+         signInWithRedirect,
+         signInWithPopup,
+         GoogleAuthProvider,
+         FacebookAuthProvider,
+         GithubAuthProvider,
+         TwitterAuthProvider,
+         createUserWithEmailAndPassword
+        } from 'firebase/auth';
 import {
     getFirestore,
     doc,
@@ -29,31 +37,35 @@ Providers.forEach(Provider => {
     Provider.setCustomParameters({
         prompt : 'select_account'
     });
+    Provider.addScope('email');
 });
 
 export const auth = getAuth(FireApp);
 
 export const signInWithGooglePopUp = () => signInWithPopup(auth , googleProvider);
-export const signInWithFacebookPopUp = () => signInWithPopup(auth , fbProvider);
+export const signInWithFacebookRedirect = () => signInWithRedirect(auth , fbProvider);
 export const signInWithGithubPopUp = () => signInWithRedirect(auth , gitProvider);
 export const signInWithTweeterPopUp = () => signInWithPopup(auth , twitterProvider);
 
 export const db = getFirestore();
 
-export const createUserDocFromAuth = async (userAuth) => {
+export const createUserDocFromAuth = async (userAuth,updateNullValues) => {
+    if(!userAuth) return;
     const userDocRef = doc(db,'Users',userAuth.uid);
     const userDocSnap = await getDoc(userDocRef);
     //console.log(userDocSnap,'/n',userDocRef,userDocSnap.exists());
 
     if(!userDocSnap.exists()){
         const { displayName, email } = userAuth;
+        //console.log(userAuth);
         const createdAt = new Date();
 
         try{
             await setDoc(userDocRef, {
                 displayName,
                 email,
-                createdAt
+                createdAt,
+                ...updateNullValues
             })
         } catch(err){
             console.log(err.message);
@@ -62,6 +74,17 @@ export const createUserDocFromAuth = async (userAuth) => {
     return userDocRef;
 }
 
+const createAuthUserWithEmailAndPassword = async (email,password) => {
+    if(!email || !password) return;
+    try {
+        const {user} = await createUserWithEmailAndPassword(auth,email,password);
+        //console.log(response);
+        return user;
+    } catch(err) {
+        if(err.code === 'auth/email-already-in-use') alert('cannot create user, email already in use');
+        console.log(err.message);
+    }
+}
 
-
+export default createAuthUserWithEmailAndPassword;
 //z3zgG6vaR31gQH2FBGAv8v2QIbuQLNZn3IkfsGpWKSRGJs6ApN  SE9IQ2FEb2ZiS0duU083emV1NTI6MTpjaQ
