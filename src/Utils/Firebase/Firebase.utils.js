@@ -4,11 +4,10 @@ import { getAuth,
          signInWithPopup,
          GoogleAuthProvider,
          FacebookAuthProvider,
-         GithubAuthProvider,
-         TwitterAuthProvider,
          createUserWithEmailAndPassword,
          signInWithEmailAndPassword,
-         signOut
+         signOut,
+         onAuthStateChanged
         } from 'firebase/auth';
 import {
     getFirestore,
@@ -30,10 +29,8 @@ const FireApp = initializeApp(configFirebase);
 
 const googleProvider = new GoogleAuthProvider();
 const fbProvider = new FacebookAuthProvider();
-const gitProvider = new GithubAuthProvider();
-const twitterProvider = new TwitterAuthProvider();
 
-const Providers = [googleProvider, fbProvider, gitProvider, twitterProvider];
+const Providers = [googleProvider, fbProvider];
 
 Providers.forEach(Provider => {
     Provider.setCustomParameters({
@@ -46,31 +43,27 @@ export const auth = getAuth(FireApp);
 
 export const signInWithGooglePopUp = () => signInWithPopup(auth , googleProvider);
 export const signInWithFacebookRedirect = () => signInWithRedirect(auth , fbProvider);
-export const signInWithGithubPopUp = () => signInWithRedirect(auth , gitProvider);
-export const signInWithTweeterPopUp = () => signInWithPopup(auth , twitterProvider);
 
 export const db = getFirestore();
 
-export const getUserDocFromAuth = async (userAuth) => {
-    if(!userAuth) return;
-    try{ 
-        const userDocRef = doc(db,'User',userAuth.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        return userDocSnap;
-    } catch(err) {
-        console.log(err);
-    }
-}
+// export const getUserDocFromAuth = async (userAuth) => {
+//     if(!userAuth) return;
+//     try{ 
+//         const userDocRef = doc(db,'User',userAuth.uid);
+//         const userDocSnap = await getDoc(userDocRef);
+//         return userDocSnap;
+//     } catch(err) {
+//         console.log(err);
+//     }
+// }
 
 export const createUserDocFromAuth = async (userAuth,updateNullValues) => {
     if(!userAuth) return;
-    console.log(userAuth);
     const userDocRef = doc(db,'Users',userAuth.uid);
     const userDocSnap = await getDoc(userDocRef);
 
     if(!userDocSnap.exists()){
         const { displayName, email } = userAuth;
-        //console.log(userAuth);
         const createdAt = new Date();
 
         try{
@@ -91,7 +84,6 @@ const createAuthUserWithEmailAndPassword = async (email,password) => {
     if(!email || !password) return;
     try {
         const {user} = await createUserWithEmailAndPassword(auth,email,password);
-        //console.log(response);
         return user;
     } catch(err) {
         if(err.code === 'auth/email-already-in-use') alert('cannot create user, email already in use');
@@ -118,3 +110,5 @@ export const signOutUser = async () => {
         console.log(err);
     }
 }
+
+export const onAuthStateChangeListener = (callback) => onAuthStateChanged(auth,callback,(err)=>console.log(err));

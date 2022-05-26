@@ -6,11 +6,7 @@ import '../Stylesheets/navigation.styles.scss'
 import { signOutUser } from "../Utils/Firebase/Firebase.utils";
 
 const Header = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
-    const signOutHandler = () => {
-        signOutUser();
-        setCurrentUser(null);
-    }
+    const { currentUser } = useContext(UserContext);
     return (
         <>
             <div className="navigation">
@@ -21,7 +17,7 @@ const Header = () => {
                     <Link className="nav-link" to='/shop'>
                         <h2>SHOP</h2>
                     </Link>
-                    {currentUser ? (<span className="nav-link" onClick={signOutHandler}>
+                    {currentUser ? (<span className="nav-link" onClick={signOutUser}>
                         <h2>SIGN OUT</h2>
                     </span>) : (<Link className="nav-link" to='/signin'>
                         <h2>SIGN IN</h2>
