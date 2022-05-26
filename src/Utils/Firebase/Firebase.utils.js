@@ -6,7 +6,9 @@ import { getAuth,
          FacebookAuthProvider,
          GithubAuthProvider,
          TwitterAuthProvider,
-         createUserWithEmailAndPassword
+         createUserWithEmailAndPassword,
+         signInWithEmailAndPassword,
+         signOut
         } from 'firebase/auth';
 import {
     getFirestore,
@@ -49,11 +51,22 @@ export const signInWithTweeterPopUp = () => signInWithPopup(auth , twitterProvid
 
 export const db = getFirestore();
 
+export const getUserDocFromAuth = async (userAuth) => {
+    if(!userAuth) return;
+    try{ 
+        const userDocRef = doc(db,'User',userAuth.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        return userDocSnap;
+    } catch(err) {
+        console.log(err);
+    }
+}
+
 export const createUserDocFromAuth = async (userAuth,updateNullValues) => {
     if(!userAuth) return;
+    console.log(userAuth);
     const userDocRef = doc(db,'Users',userAuth.uid);
     const userDocSnap = await getDoc(userDocRef);
-    //console.log(userDocSnap,'/n',userDocRef,userDocSnap.exists());
 
     if(!userDocSnap.exists()){
         const { displayName, email } = userAuth;
@@ -87,4 +100,21 @@ const createAuthUserWithEmailAndPassword = async (email,password) => {
 }
 
 export default createAuthUserWithEmailAndPassword;
-//z3zgG6vaR31gQH2FBGAv8v2QIbuQLNZn3IkfsGpWKSRGJs6ApN  SE9IQ2FEb2ZiS0duU083emV1NTI6MTpjaQ
+
+export const signInAuthUserWithEmailAndPassword = async (email,password) => {
+    try{
+        if(!email || !password) return;
+        return await signInWithEmailAndPassword(auth, email, password);
+    } catch(err){
+        if(err.code === 'auth/wrong-password') alert('wrong password!');
+        console.log(err);
+    }
+}
+
+export const signOutUser = async () => {
+    try{
+        await signOut(auth);
+    } catch(err){
+        console.log(err);
+    }
+}

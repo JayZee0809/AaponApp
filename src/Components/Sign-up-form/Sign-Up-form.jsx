@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { UserContext } from "../../Contexts/user.context";
 import createAuthUserWithEmailAndPassword, { createUserDocFromAuth } from "../../Utils/Firebase/Firebase.utils";
 import Button from "../Button-Component/Button";
 import { FormInput } from "../Form-input/Form-Input.component";
@@ -14,9 +15,7 @@ const defaultformFields = {
 const SignUp = () => {
     const [formFields,setFormFields] = useState(defaultformFields);
     const {displayName,email,password,confirmPassword} = formFields;
-
-    //console.log(formFields);
-
+    const { setCurrentUser } = useContext(UserContext);
     const handleSubmit = async (event) => {
         event.preventDefault();
         try{
@@ -24,8 +23,10 @@ const SignUp = () => {
             if(password !== confirmPassword) throw Error('password mismatch!');
             else{
                 const user = await createAuthUserWithEmailAndPassword(email,password);
+                if(!user) return;
                 if(!user.displayName) await createUserDocFromAuth(user,{displayName});
                 else await createUserDocFromAuth(user);
+                setCurrentUser(user);
             }
         } catch(err){
             console.log(err);
@@ -39,7 +40,7 @@ const SignUp = () => {
 
     return (
         <div className="sign-up-container">
-            <h2>Don't have an account?</h2>
+            <h2>I don't have an account</h2>
             <span>Sign up with your email and password</span>
             <form onSubmit={handleSubmit}>
                 <FormInput label='Display Name :' type='text' required name="displayName" onChange={handleChange} value={displayName}/>
