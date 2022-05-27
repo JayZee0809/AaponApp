@@ -1,4 +1,4 @@
-import CategoryContainer from "../../Components/Category-Container";
+import CategoryContainer from "../../Containers/Category-Container";
 
 const Home = ({categories}) => {
     return (

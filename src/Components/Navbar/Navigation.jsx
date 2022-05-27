@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
-import { ReactComponent as Logo } from "../Assets/crown.svg";
-import { UserContext } from "../Contexts/user.context";
-import '../Stylesheets/navigation.styles.scss'
-import { signOutUser } from "../Utils/Firebase/Firebase.utils";
+import { ReactComponent as Logo } from "../../Assets/crown.svg";
+import { UserContext } from "../../Contexts/user.context";
+import '../../Stylesheets/navigation.styles.scss';
+import { signOutUser } from "../../Utils/Firebase/Firebase.utils";
 
 const Header = () => {
     const { currentUser } = useContext(UserContext);
@@ -11,7 +11,7 @@ const Header = () => {
         <>
             <div className="navigation">
                 <Link className="logo-container" to='/'>
-                <Logo/>
+                    <Logo/>
                 </Link>
                 <div className="nav-links-container">
                     <Link className="nav-link" to='/shop'>
