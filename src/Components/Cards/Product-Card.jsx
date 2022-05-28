@@ -7,8 +7,12 @@ export const ProductCard = ({product}) => {
     const { count, setCount } = useContext(cartContext);
 
     const clickHandler = (event) => {
-        const productID = event.target.value;
-        setCount([...count,productID]);
+        const { productID } = event.target.value;
+        setCount({
+            ...count,
+            productID : count[productID] ? count[productID] + 1 : 1,
+            length : count.length + 1
+        });
     }
     return (
         <div key={id} className="product-card-container">
@@ -17,7 +21,7 @@ export const ProductCard = ({product}) => {
                 <span className="name">{name}</span>
                 <span className="price">{Math.floor(price / 2.18 * 77.59)}/-</span>
             </div>
-            <Button buttontype='inverted' onClick={clickHandler} value={id}>Add to cart</Button>
+            <Button buttontype='inverted' onClick={clickHandler} value={ product }>Add to cart</Button>
         </div>
     )
 }
