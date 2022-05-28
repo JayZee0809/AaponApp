@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as Logo } from "../../Assets/crown.svg";
+import { DropdownProvider } from "../../Contexts/dropdown.context";
 import { UserContext } from "../../Contexts/user.context";
 import '../../Stylesheets/navigation.styles.scss';
 import { signOutUser } from "../../Utils/Firebase/Firebase.utils";
+import { CartIcon } from "../Cart-icon/Cart-icon-component";
 
 const Header = () => {
     const { currentUser } = useContext(UserContext);
@@ -22,6 +24,9 @@ const Header = () => {
                     </span>) : (<Link className="nav-link" to='/signin'>
                         <h2>SIGN IN</h2>
                     </Link>)}
+                    <DropdownProvider>
+                        <CartIcon/>
+                    </DropdownProvider>
                 </div>
             </div>
             <Outlet/>

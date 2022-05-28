@@ -4,14 +4,13 @@ import { categories } from "../categories";
 import Home from '../Routes/Home/Home.Routes';
 import Navigation from '../Components/Navbar/Navigation';
 import AuthPage from '../Routes/Authentication/Authentication.routes';
-import { Shop } from '../Components/Shop/Shop';
-
+import { ShoppingPage } from '../Routes/Shop/Shop.Routes';
 const App = () => {
   return (
     <Routes>
       <Route path='/' element={<Navigation/>}>
         <Route index={true} element={<Home categories={categories}/>}/>
-        <Route path='shop' element={<Shop/>}/>
+        <Route path='shop' element={<ShoppingPage/>}/>
         <Route path='signin' element={<AuthPage/>}/>
       </Route>
     </Routes>
