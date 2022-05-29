@@ -12,12 +12,12 @@ export const CartIcon = () => {
         setVisibility(!visibility);
     }
     return (
-        visibility ? (<><div className='cart-icon-container'>
-        <ShopIcon className='shopping-icon' onClick={clickHandler}/>
-        <span className='item-count' onClick={clickHandler}>{count.length}</span>
-    </div><CartDropdown/></>) : (<div className='cart-icon-container'>
-        <ShopIcon className='shopping-icon' onClick={clickHandler}/>
-        <span className='item-count' onClick={clickHandler}>{count.length}</span>
-    </div>)
+        <>
+            <div className='cart-icon-container'>
+                <ShopIcon className='shopping-icon' onClick={clickHandler}/>
+                <span className='item-count' onClick={clickHandler}>{count.length}</span>
+            </div>
+            <CartDropdown/>
+        </>
     )
 }

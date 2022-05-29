@@ -4,7 +4,7 @@ import './product-card.styles.scss';
 export const Shop = ({products}) => {
     return (
         <div className="products-container">
-            {products.map(product => <ProductCard product={product}/>)}
+            {products.map(product => <ProductCard key={product.id} product={product}/>)}
         </div>
     );
 }

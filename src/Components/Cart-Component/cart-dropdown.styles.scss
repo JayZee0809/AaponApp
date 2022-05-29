@@ -10,6 +10,9 @@
   top: 90px;
   right: 40px;
   z-index: 5;
+  ::-webkit-scrollbar {
+    background: transparent;  /* Optional: just make scrollbar invisible */
+  }
 
   .empty-message {
     font-size: 18px;
@@ -20,7 +23,7 @@
     height: 240px;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: scroll;
   }
 
   button {

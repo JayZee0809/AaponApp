@@ -1,11 +1,14 @@
-import Button from '../Button-Component/Button';
-import './cart-dropdown.styles.scss';
+import { useContext } from "react"
+import { dropdownContext } from "../../Contexts/dropdown.context"
+import { CartComponent } from "../Cart-Component/Cart-component";
+
 
 export const CartDropdown = () => {
+    const { visibility } = useContext(dropdownContext);
+
     return (
-        <div className='cart-dropdown-container'>
-            <div className='cart-items'/>
-            <Button>Go to Cart</Button>
-        </div>
+        <>
+            {visibility && <CartComponent/>}
+        </>
     )
 }
