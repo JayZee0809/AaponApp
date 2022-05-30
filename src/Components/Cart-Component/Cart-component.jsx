@@ -1,27 +1,52 @@
-import { useContext } from 'react';
-import { cartContext } from '../../Contexts/cart-items.context';
-import Button from '../Button-Component/Button';
-import { CartItems } from '../Cart-items/Cart-items-component';
-import './cart-dropdown.styles.scss';
-import Products from '../../shop-data.json';
+import { useContext } from "react";
+import { cartContext } from "../../Contexts/cart-items.context";
+import './checkout-item.styles.scss';
 
-export const CartComponent = () => {
-    const { count } = useContext(cartContext);
-    const itemList = Object.keys(count);
-    const { total } = count;
+export const CartComponent = ({product}) => {
+    const { count, setCount } = useContext(cartContext);
+    const { id, name, price, imageUrl } = product;
+    const productCount = count[id];
+    const clickHandler = () => {
+        setCount({
+            ...count,
+            length : count.length - productCount,
+            total : count.total - productCount * Math.floor(price / 2.18 * 77.59),
+            [id] : 0,
+        });
+    }
+
+    const onClickReducer = () => {
+        setCount({
+            ...count,
+            length : count.length - 1,
+            total : count.total - Math.floor(price / 2.18 * 77.59),
+            [id] : productCount ? productCount - 1 : 0,
+        });
+    }
+
+    const onClickIncreamenter = () => {
+        const value = count[id];
+        setCount({
+            ...count,
+            [id] : (value ? value + 1 : 1),
+            length : count.length + 1,
+            total : count.total + Math.floor(price / 2.18 * 77.59)
+        });
+    }
+    
     return (
-        <div className='cart-dropdown-container'>
-            <div className='cart-items'>
-                {itemList.map(productID => 
-                    (Products[productID - 1] && (count[productID] > 0)
-                        &&
-                    <CartItems key={productID} product={Products[productID - 1]}/>
-                    ))
-                }
-                {!total && <div className='empty-items'><h3>Cart is Empty!</h3></div>}
+        <div className='cart-item-container'>
+            <div className='image-container'>
+                <img alt='product' src={imageUrl}/>
             </div>
-            <h2>Total : ₹{total}</h2>
-            <Button>Go to Cart</Button>
+            <span className='name'>{name}</span>
+            <div className='quantity'>
+                <span className="arrow" onClick={onClickReducer}>{'<'}</span>
+                <span className="value">{count[id]}</span>
+                <span className="arrow" onClick={onClickIncreamenter}>{'>'}</span>
+            </div>
+            <span className='price'>{Math.floor(price / 2.18 * 77.59)}</span>
+            <span className='remove-button' onClick={clickHandler}>&#10005;</span>
         </div>
     )
 }

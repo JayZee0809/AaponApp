@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { ReactComponent as ShopIcon } from '../../Assets/shopping-bag.svg';
 import { cartContext } from '../../Contexts/cart-items.context';
 import { dropdownContext } from '../../Contexts/dropdown.context';
-import { CartDropdown } from '../Cart-dropdown/Cart-dropdown-component';
+import { CartDropdown } from '../Cart-dropdown/Cart-dropdown';
 import './cart-icon.styles.scss';
 
 export const CartIcon = () => {

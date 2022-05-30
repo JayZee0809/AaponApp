@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { dropdownContext } from "../../Contexts/dropdown.context"
-import { CartComponent } from "../Cart-Component/Cart-component";
+import { CartDropdownComponent } from "../Cart-dropdown-Component/Cart-dropdown-component";
 
 
 export const CartDropdown = () => {
@@ -8,7 +8,7 @@ export const CartDropdown = () => {
 
     return (
         <>
-            {visibility && <CartComponent/>}
+            {visibility && <CartDropdownComponent/>}
         </>
     )
 }
