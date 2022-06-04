@@ -13,7 +13,10 @@ import {
     getFirestore,
     doc,
     getDoc,
-    setDoc
+    setDoc,
+    collection,
+    query,
+    getDocs
 } from 'firebase/firestore';
 
 const configFirebase = {
@@ -24,6 +27,11 @@ const configFirebase = {
     messagingSenderId: "165902489855",
     appId: "1:165902489855:web:0fe473ee49e737ad2d54ca"
 };
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 
 const FireApp = initializeApp(configFirebase);
 
@@ -39,24 +47,27 @@ Providers.forEach(Provider => {
     Provider.addScope('email');
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 export const auth = getAuth(FireApp);
 
 export const signInWithGooglePopUp = () => signInWithPopup(auth , googleProvider);
 export const signInWithFacebookRedirect = () => signInWithRedirect(auth , fbProvider);
 
 export const db = getFirestore();
-
-// export const getUserDocFromAuth = async (userAuth) => {
-//     if(!userAuth) return;
-//     try{ 
-//         const userDocRef = doc(db,'User',userAuth.uid);
-//         const userDocSnap = await getDoc(userDocRef);
-//         return userDocSnap;
-//     } catch(err) {
-//         console.log(err);
-//     }
-// }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+export const getUserDocFromAuth = async (userAuth) => {
+    if(!userAuth) return;
+    try{ 
+        const userDocRef = doc(db,'User',userAuth.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        return userDocSnap;
+    } catch(err) {
+        console.log(err);
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export const createUserDocFromAuth = async (userAuth,updateNullValues) => {
     if(!userAuth) return;
     const userDocRef = doc(db,'Users',userAuth.uid);
@@ -79,7 +90,7 @@ export const createUserDocFromAuth = async (userAuth,updateNullValues) => {
     }
     return userDocRef;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const createAuthUserWithEmailAndPassword = async (email,password) => {
     if(!email || !password) return;
     try {
@@ -92,6 +103,8 @@ const createAuthUserWithEmailAndPassword = async (email,password) => {
 }
 
 export default createAuthUserWithEmailAndPassword;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 export const signInAuthUserWithEmailAndPassword = async (email,password) => {
     try{
@@ -110,5 +123,24 @@ export const signOutUser = async () => {
         console.log(err);
     }
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 export const onAuthStateChangeListener = (callback) => onAuthStateChanged(auth,callback,(err)=>console.log(err));
+
+export const getCategoriesAndDocs = async() => {
+    const collectionRef = collection(db,'categories');
+    const q = query(collectionRef);
+
+    try{
+        const querySnapshot = await getDocs(q);
+        const categoryMap = querySnapshot.docs.reduce((acc,currentDoc) => {
+            const { title, items} = currentDoc.data();
+            acc[title.toLowerCase()] = items;
+            return acc;
+        },{});
+        return categoryMap;
+    }catch(err){
+        console.log(err.message);
+    }
+}

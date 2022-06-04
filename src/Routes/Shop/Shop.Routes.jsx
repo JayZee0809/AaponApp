@@ -6,6 +6,6 @@ export const ShoppingPage = () => {
     const { products } = useContext(productContext);
 
     return (
-        <Shop products={products}/>
+        <Shop categories={products}/>
     )
 }

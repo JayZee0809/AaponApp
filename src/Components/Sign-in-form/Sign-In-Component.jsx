@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
+    getRedirectResult
+} from "firebase/auth";
+import {
+    auth,
     signInWithGooglePopUp,
     signInWithFacebookRedirect,
-    signInAuthUserWithEmailAndPassword
+    signInAuthUserWithEmailAndPassword,
+    getUserDocFromAuth
 } from "../../Utils/Firebase/Firebase.utils.js";
 import { FormInput } from "../Form-input/Form-Input.component";
 import Button from "../Button-Component/Button";
@@ -47,6 +52,18 @@ export const SignInComponent = () => {
             console.log(err);
         }
     }
+    useEffect(()=>{
+        async function fetchData(){
+            try {
+                const response = await getRedirectResult(auth);
+                if(response) await getUserDocFromAuth(response.user);
+            } catch(err){
+                if(err.code === 'auth/account-exists-with-different-credential') alert('account exists with different credentials/provider');
+                else console.log(err.message);
+            }
+        }
+        fetchData();
+    },[]);
 
     return (
         <div className="sign-up-container">
@@ -91,19 +108,4 @@ const logTwitterUser = async () => {
     }
 }
 
-useEffect(()=>{
-        async function fetchData(){
-            try {
-                const response = await getRedirectResult(auth);
-                console.log(response);
-                if(!response) throw Error(`Account doesn't exist`)
-                else{
-                    const creds = await getUserDocFromAuth(response.user);
-                    console.log(creds);
-                }
-            } catch(err){
-                console.log(err);
-            }
-        }
-        fetchData();
-},[]);*/
+*/

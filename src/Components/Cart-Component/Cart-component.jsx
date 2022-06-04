@@ -2,16 +2,29 @@ import { useContext } from "react";
 import { cartContext } from "../../Contexts/cart-items.context";
 import './checkout-item.styles.scss';
 
-export const CartComponent = ({product}) => {
+export const CartComponent = ({product, title}) => {
     const { count, setCount } = useContext(cartContext);
     const { id, name, price, imageUrl } = product;
-    const productCount = count[id];
+    const productCount = count[title] ? count[title][id] : 0;
+
+    const addProduct = {
+        ...count[title],
+        [id] : (productCount ? productCount + 1 : 1)
+    }
+    const removeProduct = {
+        ...count[title],
+        [id] : (productCount ? productCount - 1 : 0)
+    }
+    const removeBatch = {
+        ...count[title],
+        [id] : 0
+    }
     const clickHandler = () => {
         setCount({
             ...count,
             length : count.length - productCount,
             total : count.total - productCount * Math.floor(price / 2.18 * 77.59),
-            [id] : 0,
+            [title] : removeBatch
         });
     }
 
@@ -20,15 +33,14 @@ export const CartComponent = ({product}) => {
             ...count,
             length : count.length - 1,
             total : count.total - Math.floor(price / 2.18 * 77.59),
-            [id] : productCount ? productCount - 1 : 0,
+            [title] : removeProduct
         });
     }
 
     const onClickIncreamenter = () => {
-        const value = count[id];
         setCount({
             ...count,
-            [id] : (value ? value + 1 : 1),
+            [title] : addProduct,
             length : count.length + 1,
             total : count.total + Math.floor(price / 2.18 * 77.59)
         });
@@ -42,7 +54,7 @@ export const CartComponent = ({product}) => {
             <span className='name'>{name}</span>
             <div className='quantity'>
                 <span className="arrow" onClick={onClickReducer}>{'<'}</span>
-                <span className="value">{count[id]}</span>
+                <span className="value">{productCount}</span>
                 <span className="arrow" onClick={onClickIncreamenter}>{'>'}</span>
             </div>
             <span className='price'>{Math.floor(price / 2.18 * 77.59)}</span>

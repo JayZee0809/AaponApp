@@ -3,10 +3,10 @@ import { cartContext } from '../../Contexts/cart-items.context';
 import './cart-item.styles.scss';
 
 
-export const CartItems = ({product}) => {
+export const CartItems = ({product,title}) => {
     const { id, imageUrl, name, price } = product;
     const { count } = useContext(cartContext);
-    const itemCount = count[id];
+    const itemCount = count[title] ? count[title][id] : 0;
     return (
         <div className="cart-item-container">
             <img alt={name} src={imageUrl}/>

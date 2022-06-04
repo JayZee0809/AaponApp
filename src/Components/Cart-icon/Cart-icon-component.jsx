@@ -11,6 +11,7 @@ export const CartIcon = () => {
     const clickHandler = () => {
         setVisibility(!visibility);
     }
+    // console.log(count)
     return (
         <>
             <div className='cart-icon-container'>

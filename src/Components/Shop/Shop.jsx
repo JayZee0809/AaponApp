@@ -1,10 +1,13 @@
-import { ProductCard } from "../Cards/Product-Card";
-import './product-card.styles.scss';
+import { Route, Routes } from "react-router-dom"
+import { CategoriesPreview } from "../Categories-Preview-Component/Categories-Preview-component"
+import { Category } from "../Category-Component/Category-Component"
 
-export const Shop = ({products}) => {
+
+export const Shop = ({categories}) => {
     return (
-        <div className="products-container">
-            {products.map(product => <ProductCard key={product.id} product={product}/>)}
-        </div>
-    );
+        <Routes>
+            <Route index element={<CategoriesPreview categories={categories} />} />
+            <Route path=":category" element={<Category />} />
+        </Routes>
+    )
 }
