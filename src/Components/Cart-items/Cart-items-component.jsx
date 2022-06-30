@@ -5,7 +5,7 @@ import './cart-item.styles.scss';
 
 export const CartItems = ({product,title}) => {
     const { id, imageUrl, name, price } = product;
-    const { count } = useContext(cartContext);
+    const { cartState } = useContext(cartContext), { count } = cartState;
     const itemCount = count[title] ? count[title][id] : 0;
     return (
         <div className="cart-item-container">

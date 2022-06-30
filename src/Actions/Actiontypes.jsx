@@ -1,0 +1,13 @@
+export const User_Login_Request = 'User_Login_Request';
+export const User_Login_Success = 'User_Login_Success';
+export const User_Login_Failure = 'User_Login_Failure';
+export const User_Logout_Request = 'User_Logout_Request';
+export const User_Logout_Success = 'User_Logout_Success';
+export const User_Logout_Failure = 'User_Logout_Failure';
+export const Add_To_Cart_Request = 'Add_To_Cart_Request';
+export const Add_To_Cart_Success = 'Add_To_Cart_Success';
+export const Reduce_Item_From_Cart_Request = 'Reduce_Item_From_Cart_Request';
+export const Reduce_Item_From_Cart_Success = 'Reduce_Item_From_Cart_Success';
+export const Remove_Items_From_Cart_Request = 'Remove_Items_From_Cart_Request';
+export const Remove_Items_From_Cart_Success = 'Remove_Items_From_Cart_Success';
+export const Cart_Action_Failure = 'Cart_Action_Failure';

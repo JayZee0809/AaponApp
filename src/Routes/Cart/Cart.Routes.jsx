@@ -7,9 +7,8 @@ import { cartContext } from "../../Contexts/cart-items.context";
 
 
 export const Cart = () => {
-    const { count } = useContext(cartContext);
-    const { total } = count;
-    return(
+    const { cartState } = useContext(cartContext), {  total } = cartState;
+    return (
         <div className="cart-container">
             <CartHeader/>
             <GetCartItems Component={CartComponent}/>

@@ -1,0 +1,18 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend of the system",
+  "main": "\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001bserver.js)",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "(https://github.com/JayZee0809/AaponApp)\u001b[D/Backend)"
+  },
+  "author": "Sayandeeep Chowdhury",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}

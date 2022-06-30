@@ -3,47 +3,24 @@ import { cartContext } from "../../Contexts/cart-items.context";
 import './checkout-item.styles.scss';
 
 export const CartComponent = ({product, title}) => {
-    const { count, setCount } = useContext(cartContext);
+    const { cartState, setIncreasedCount, setReducedCount, setCountRemoved } = useContext(cartContext), { count } = cartState;
     const { id, name, price, imageUrl } = product;
     const productCount = count[title] ? count[title][id] : 0;
-
-    const addProduct = {
-        ...count[title],
-        [id] : (productCount ? productCount + 1 : 1)
-    }
-    const removeProduct = {
-        ...count[title],
-        [id] : (productCount ? productCount - 1 : 0)
-    }
-    const removeBatch = {
-        ...count[title],
-        [id] : 0
-    }
+    
+    const productDetails = [
+        title, id,
+        Math.floor(price / 2.18 * 77.59),false
+    ]
     const clickHandler = () => {
-        setCount({
-            ...count,
-            length : count.length - productCount,
-            total : count.total - productCount * Math.floor(price / 2.18 * 77.59),
-            [title] : removeBatch
-        });
-    }
+        setCountRemoved(productDetails);
+     }
 
     const onClickReducer = () => {
-        setCount({
-            ...count,
-            length : count.length - 1,
-            total : count.total - Math.floor(price / 2.18 * 77.59),
-            [title] : removeProduct
-        });
+        setReducedCount(productDetails);
     }
 
     const onClickIncreamenter = () => {
-        setCount({
-            ...count,
-            [title] : addProduct,
-            length : count.length + 1,
-            total : count.total + Math.floor(price / 2.18 * 77.59)
-        });
+        setIncreasedCount(productDetails);
     }
     
     return (

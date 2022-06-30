@@ -27,10 +27,10 @@ export const binarySearch = function(array,element,left = 0, right = array.lengt
 };
 
 export const GetCartItems = ({Component}) => {   
-    const { count } = useContext(cartContext);
+    const { cartState } = useContext(cartContext), { count } = cartState;
     const { products } = useContext(productContext);
+    if(!cartState.total) return <div className='empty-items'><h3>Cart is Empty!</h3></div>
     const categoryList = Object.keys(count);
-    if(!count.total) return <div className='empty-items'><h3>Cart is Empty!</h3></div>
     return (
         categoryList.map(category => (
             count[category] >= 0 ? null : (

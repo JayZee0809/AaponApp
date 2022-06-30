@@ -7,8 +7,7 @@ import { Link } from 'react-router-dom';
 import { GetCartItems } from '../../Utils/Cart/Cart.utils';
 
 export const CartDropdownComponent = () => {
-    const { count } = useContext(cartContext);
-    const { total } = count;
+    const { cartState } = useContext(cartContext), { total } = cartState;
     return (
         <div className='cart-dropdown-container'>
             <div className='cart-items'>

@@ -7,7 +7,7 @@ import './cart-icon.styles.scss';
 
 export const CartIcon = () => {
     const { visibility, setVisibility } = useContext(dropdownContext);
-    const { count } = useContext(cartContext);
+    const { cartState } = useContext(cartContext);
     const clickHandler = () => {
         setVisibility(!visibility);
     }
@@ -16,7 +16,7 @@ export const CartIcon = () => {
         <>
             <div className='cart-icon-container'>
                 <ShopIcon className='shopping-icon' onClick={clickHandler}/>
-                <span className='item-count' onClick={clickHandler}>{count.length}</span>
+                <span className='item-count' onClick={clickHandler}>{cartState.length}</span>
             </div>
             <CartDropdown/>
         </>
