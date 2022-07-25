@@ -1,22 +1,23 @@
-import { useContext } from 'react';
-import { cartContext } from '../../Contexts/cart-items.context';
 import Button from '../Button-Component/Button';
 import { CartItems } from '../Cart-items/Cart-items-component';
-import './cart-dropdown.styles.scss';
+// import './cart-dropdown.styles.scss';
 import { Link } from 'react-router-dom';
 import { GetCartItems } from '../../Utils/Cart/Cart.utils';
+import { useSelector } from 'react-redux';
+import { cartSelector } from '../../Store/selectors/cart.selector';
+import { CartDropdown, CartItemsDiv } from './cart-dropdown.styles';
 
 export const CartDropdownComponent = () => {
-    const { cartState } = useContext(cartContext), { total } = cartState;
+    const cartState = useSelector(cartSelector);
     return (
-        <div className='cart-dropdown-container'>
-            <div className='cart-items'>
+        <CartDropdown>
+            <CartItemsDiv>
                 <GetCartItems Component={CartItems}/>
-            </div>
-            <h2>Total : ₹{total}</h2>
+            </CartItemsDiv>
+            <h2>Total : ₹{cartState ? cartState.total : 0}</h2>
             <Link to='/cart'>
                 <Button>Go to Cart</Button>
             </Link>
-        </div>
+        </CartDropdown>
     )
 }

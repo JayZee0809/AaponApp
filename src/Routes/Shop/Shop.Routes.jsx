@@ -1,11 +1,15 @@
-import { useContext } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Shop } from "../../Components/Shop/Shop";
-import { productContext } from "../../Contexts/products.context";
+import { fetchProductsAsync } from "../../Store/Actions/products.action";
 
 export const ShoppingPage = () => {
-    const { products } = useContext(productContext);
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchProductsAsync());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[]);
     return (
-        <Shop categories={products}/>
+        <Shop/>
     )
 }

@@ -3,10 +3,15 @@ import { CategoriesPreview } from "../Categories-Preview-Component/Categories-Pr
 import { Category } from "../Category-Component/Category-Component"
 
 
-export const Shop = ({categories}) => {
+export const Shop = () => {
+    // const categories = products.reduce((acc,category) => {
+    //     const { title, items} = category;
+    //     acc[title.toLowerCase()] = items;
+    //     return acc;
+    // },{});
     return (
         <Routes>
-            <Route index element={<CategoriesPreview categories={categories} />} />
+            <Route index element={<CategoriesPreview />} />
             <Route path=":category" element={<Category />} />
         </Routes>
     )

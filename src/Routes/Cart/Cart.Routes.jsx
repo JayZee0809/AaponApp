@@ -2,12 +2,12 @@ import { CartComponent } from "../../Components/Cart-Component/Cart-component";
 import { CartHeader } from "../../Components/Cart-Component/Cart-Header";
 import '../../Components/Cart-Component//cart.styles.scss';
 import { GetCartItems } from "../../Utils/Cart/Cart.utils";
-import { useContext } from "react";
-import { cartContext } from "../../Contexts/cart-items.context";
+import { useSelector } from "react-redux";
+import { cartSelector } from "../../Store/selectors/cart.selector";
 
 
 export const Cart = () => {
-    const { cartState } = useContext(cartContext), {  total } = cartState;
+    const cartState = useSelector(cartSelector), { total } = cartState;
     return (
         <div className="cart-container">
             <CartHeader/>

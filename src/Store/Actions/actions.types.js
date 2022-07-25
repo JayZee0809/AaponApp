@@ -11,3 +11,7 @@ export const Reduce_Item_From_Cart_Success = 'Reduce_Item_From_Cart_Success';
 export const Remove_Items_From_Cart_Request = 'Remove_Items_From_Cart_Request';
 export const Remove_Items_From_Cart_Success = 'Remove_Items_From_Cart_Success';
 export const Cart_Action_Failure = 'Cart_Action_Failure';
+export const Fetch_Category_Items_Request = 'Fetch_Category_Items_Request';
+export const Fetch_Category_Items_Success = 'Fetch_Category_Items_Success';
+export const Fetch_Category_Items_Failure = 'Fetch_Category_Items_Failure';
+export const Set_Current_Location = 'Set_Current_Location';

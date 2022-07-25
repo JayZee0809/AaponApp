@@ -1,22 +1,16 @@
 import { createContext, useReducer } from "react";
-import { Add_To_Cart_Success, Reduce_Item_From_Cart_Success, Remove_Items_From_Cart_Success } from "../Actions/Actiontypes";
-import { cartReducer } from "../Reducers/CartReducer";
+import { Add_To_Cart_Success, Reduce_Item_From_Cart_Success, Remove_Items_From_Cart_Success } from "../Store/Actions/actions.types";
+import { cartReducer } from "../Store/Reducers/CartReducer";
 
 export const cartContext = createContext({
-    cart : {},
+    cartState : {},
     setIncreasedCount : () => null,
     setReducedCount : () => null
 });
 
-const Initial_Cart_State = {
-    count : {},
-    length : 0,
-    total : 0
-}
-
 export const CartProvider = ({ children }) => {
     // const [ count, setCount ] = useState({length : 0, total : 0});
-    const [ cartState, dispatch ] = useReducer(cartReducer, Initial_Cart_State);
+    const [ cartState, dispatch ] = useReducer(cartReducer,{count : {}, length : 0, total : 0});
     const setIncreasedCount = (itemDetails) => {
         dispatch({ type : Add_To_Cart_Success, payload : itemDetails });
     };

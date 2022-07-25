@@ -1,11 +1,11 @@
-import { useContext } from 'react';
-import { cartContext } from '../../Contexts/cart-items.context';
+import { useSelector } from 'react-redux';
+import { cartSelector } from '../../Store/selectors/cart.selector';
 import './cart-item.styles.scss';
 
 
 export const CartItems = ({product,title}) => {
     const { id, imageUrl, name, price } = product;
-    const { cartState } = useContext(cartContext), { count } = cartState;
+    const cartState = useSelector(cartSelector), { count } = cartState;
     const itemCount = count[title] ? count[title][id] : 0;
     return (
         <div className="cart-item-container">

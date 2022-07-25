@@ -1,7 +1,15 @@
-import { User_Login_Failure, User_Login_Request, User_Login_Success, User_Logout_Failure, User_Logout_Request, User_Logout_Success } from "../Actions/Actiontypes";
+import { User_Login_Failure, User_Login_Request, User_Login_Success, User_Logout_Failure, User_Logout_Request, User_Logout_Success } from "../Actions/actions.types";
 
-export const userReducer = (state, action) => {
-    console.log('dispatched!',state);
+
+
+
+export const Initial_Login_State = {
+    currentUser : null,
+    isAuthenticated : false,
+    loading : false
+}
+
+export const userReducer = (state = Initial_Login_State, action) => {
     const {type, payload} = action;
     switch (type) {
         case User_Login_Request:
@@ -41,6 +49,6 @@ export const userReducer = (state, action) => {
             }
     
         default:
-            throw new Error(`Unhandled type ${type} in userReducer`);
+            return state;
     }
 }

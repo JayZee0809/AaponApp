@@ -1,10 +1,12 @@
-import { useContext } from "react"
-import { cartContext } from "../../Contexts/cart-items.context"
+import { useDispatch, useSelector } from "react-redux";
+import { setIncreasedCount, setReducedCount } from "../../Store/Actions/cart.action";
+import { cartSelector } from "../../Store/selectors/cart.selector";
 
 
 
 export const ProductCountBar = ({product, title}) => {
-    const { cartState, setIncreasedCount, setReducedCount } = useContext(cartContext);
+    const dispatch = useDispatch();
+    const cartState = useSelector(cartSelector);
     const { count } = cartState;
     const { id, price } = product;
     const productCount = count[title] ? count[title][id] : 0;
@@ -18,22 +20,36 @@ export const ProductCountBar = ({product, title}) => {
     //     [id] : (productCount ? productCount + 1 : 1)
     // }
 
-    const removeOnClickHandler = () => {
-
-        setReducedCount([
-            title, id,
-            Math.floor(price / 2.18 * 77.59),false
-        ]);
+    const unSubscribeFromParentsClickHandler = (e) => {
+        e.isPropagationStopped = () => true;
     }
-    const addOnClickHandler = () => {
 
-        setIncreasedCount([
-            title, id,
-            Math.floor(price / 2.18 * 77.59),true
-        ]);
+    const removeOnClickHandler = (e) => {
+        // e.isPropagationStopped = () => true;
+        dispatch(setReducedCount(
+            {
+                state : cartState,
+                payload : [
+                    title, id,
+                    Math.floor(price / 2.18 * 77.59)
+                ]
+            }
+        ));
+    }
+    const addOnClickHandler = (e) => {
+        // e.isPropagationStopped = () => true;
+        dispatch(setIncreasedCount(
+            {
+                state : cartState,
+                payload : [
+                    title, id,
+                    Math.floor(price / 2.18 * 77.59)
+                ]
+            }
+        ));
     }
     return (
-        <div className="count-bar-container">
+        <div className="count-bar-container" onClick={unSubscribeFromParentsClickHandler}>
             <span className="count-bar to-point" onClick={removeOnClickHandler}>{'<'}</span>
             <span className="count-bar">{productCount}</span>
             <span className="count-bar to-point" onClick={addOnClickHandler}>{'>'}</span>
